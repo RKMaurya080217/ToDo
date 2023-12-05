@@ -1,0 +1,30 @@
+Create a task
+(POST)http://localhost:8080/todo
+e.g. Create.json
+
+
+
+Get all task
+(GET)http://localhost:8080/alltask
+
+
+
+Get all completed task
+(GET)http://localhost:8080/completedtask
+
+
+
+
+Get all incompleted task
+(GET)http://localhost:8080/incompletedtask
+
+
+
+Delete a task
+(DELETE)localhost:8080/todo/Eat
+
+
+
+
+Update a task
+(PUT)localhost:8080/todo/Eat
