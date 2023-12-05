@@ -1,0 +1,19 @@
+use mydocument;
+
+
+insert = INSERT INTO todo (task, date, status) VALUES (?, ?, ?);
+
+
+fetch = SELECT * FROM todo;
+
+
+fetchcompleted = SELECT * FROM todo where status ='1';
+
+
+fetchincompleted = SELECT * FROM todo where status ='0';
+
+
+update = UPDATE todo SET task = 'Eat' WHERE task ='Bath';
+
+
+delete = DELETE FROM `mydocument`.`todo` WHERE task = 'Eat';
