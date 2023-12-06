@@ -13,6 +13,3 @@ UPDATE todo SET task = 'Breakfast' WHERE task ='Eat';
 DELETE FROM `mydocument`.`todo` WHERE task= 'Sleep';
 
 
-
-
-

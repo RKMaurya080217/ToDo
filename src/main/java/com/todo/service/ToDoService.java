@@ -6,11 +6,15 @@ import com.todo.dto.ToDoDTO;
 
 public interface ToDoService {
 	ToDoDTO createTodo(ToDoDTO tododto);
-	//updateToDo();
-	List<ToDoDTO>viewAllToDo();
-	List<ToDoDTO>getCompletedTask();
-	List<ToDoDTO>getIncompletedTask();
+
+	ToDoDTO updateToDo(String name, ToDoDTO tododto);
+
+	List<ToDoDTO> viewAllToDo();
+
+	List<ToDoDTO> getCompletedTask();
+
+	List<ToDoDTO> getIncompletedTask();
+
 	boolean deleteTask(String name);
-	//deleteToDo();
-	
+
 }

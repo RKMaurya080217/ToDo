@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,12 +77,25 @@ public class ToDoController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+	
+	
+	@PutMapping("/todo/{task}")
+    public ResponseEntity<ToDoDTO> updateToDo(@PathVariable String task, @RequestBody ToDoDTO tododto) {
+		ToDoServiceImpl serviceimpl = new ToDoServiceImpl();
+		ToDoDTO updatedTask = serviceimpl.updateToDo(task, tododto);
+        if (updatedTask != null) {
+            return ResponseEntity.ok(updatedTask);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+	
 
 	@DeleteMapping("/todo/{task}")
 	@PostMapping
 	public ResponseEntity<Void> deleteTask(@PathVariable String task) {
 		ToDoServiceImpl serviceimpl = new ToDoServiceImpl();
-		System.out.println("\n"+task+"\n");
+		System.out.println("\n" + task + "\n");
 		boolean deleted = serviceimpl.deleteTask(task);
 		if (deleted) {
 			return ResponseEntity.noContent().build();

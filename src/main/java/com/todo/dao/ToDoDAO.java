@@ -20,7 +20,7 @@ public class ToDoDAO {
 	String fetch = "SELECT * FROM todo";
 	String fetchcompleted = "SELECT * FROM todo where status='1'";
 	String fetchincompleted = "SELECT * FROM todo where status='0'";
-	String update = "UPDATE todo SET task = 'Suraj' WHERE task='Rajat'";
+	String update;
 	String delete;
 
 	public Connection getConnection() {
@@ -143,7 +143,7 @@ public class ToDoDAO {
 	}
 
 	public boolean deleteTask(String task) {
-		delete = "DELETE FROM  todo WHERE task= '"+task+"'";
+		delete = "DELETE FROM  todo WHERE task= '" + task + "'";
 		int rowsAffected = 0;
 		try {
 			pstmt = getConnection().prepareStatement(delete);
@@ -160,6 +160,31 @@ public class ToDoDAO {
 		} else {
 			System.out.println(task + " Failed to delete.");
 			return false;
+		}
+
+	}
+
+	public ToDoDTO updateTask(String task, ToDoDTO tododto) {
+		update = "UPDATE todo SET task = '" + tododto.getTask() + "', date = '" + tododto.getDate() + "', status = "
+				+ tododto.isStatus() + " WHERE task ='" + task + "'";
+		// System.out.println("\n"+update+"\n");
+		int rowsAffected = 0;
+		try {
+			pstmt = getConnection().prepareStatement(update);
+
+			rowsAffected = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (rowsAffected > 0) {
+			System.out.println(task + " Task updated successfully!");
+			return tododto;
+		} else {
+			System.out.println(task + " Failed to update.");
+			return null;
 		}
 
 	}

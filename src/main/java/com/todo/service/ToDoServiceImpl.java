@@ -53,4 +53,12 @@ public class ToDoServiceImpl implements ToDoService {
 		return deleted;
 	}
 
+	@Override
+	public ToDoDTO updateToDo(String name, ToDoDTO tododto) {
+		
+		todoDAO = new ToDoDAO();
+		tododto = todoDAO.updateTask(name, tododto);
+		return tododto;
+	}
+
 }

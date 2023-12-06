@@ -17,3 +17,11 @@ update = UPDATE todo SET task = 'Eat' WHERE task ='Bath';
 
 
 delete = DELETE FROM `mydocument`.`todo` WHERE task = 'Eat';
+
+
+
+
+
+
+"UPDATE todo SET task = '" + tododto.getTask() + "', date = '" + tododto.getDate() + "', status = '"
+				+ tododto.isStatus() + "' WHERE task ='" + task + "'";
