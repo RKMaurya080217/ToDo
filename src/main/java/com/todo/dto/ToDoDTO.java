@@ -7,11 +7,11 @@ public class ToDoDTO {
 
 	public ToDoDTO() {
 	}
-	public ToDoDTO(String task2, String date2, boolean status2) {
-		// TODO Auto-generated constructor stub
-		this.task=task2;
-		this.date=date2;
-		this.status=status2;
+
+	public ToDoDTO(String task, String date, boolean status) {
+		this.task = task;
+		this.date = date;
+		this.status = status;
 	}
 
 	public String getTask() {
@@ -36,12 +36,11 @@ public class ToDoDTO {
 
 	public void setDate(String date) {
 		this.date = date;
-	} 
+	}
 
 	@Override
 	public String toString() {
 		return "ToDoDTO [task=" + task + ", date=" + date + ", status=" + status + "]";
 	}
-
 
 }

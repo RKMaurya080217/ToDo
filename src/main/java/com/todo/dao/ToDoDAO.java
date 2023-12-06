@@ -11,24 +11,26 @@ import java.util.List;
 import com.todo.dto.ToDoDTO;
 
 public class ToDoDAO {
+	private ToDoDTO todoFetched;
 	private String task;
 	private boolean status;
 	private String date;
 	private PreparedStatement pstmt;
+	private List<ToDoDTO> tasks;
 
-	String insert = "INSERT INTO todo (task, date, status) VALUES (?, ?, ?)";
-	String fetch = "SELECT * FROM todo";
-	String fetchcompleted = "SELECT * FROM todo where status='1'";
-	String fetchincompleted = "SELECT * FROM todo where status='0'";
-	String update;
-	String delete;
+	private String insert = "INSERT INTO todo (task, date, status) VALUES (?, ?, ?)";
+	private String fetch = "SELECT * FROM todo";
+	private String fetchcompleted = "SELECT * FROM todo where status='1'";
+	private String fetchincompleted = "SELECT * FROM todo where status='0'";
+	private String update;
+	private String delete;
+	private int rowsAffected = 0;
 
 	public Connection getConnection() {
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydocument", "root", "root");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return conn;
@@ -38,7 +40,6 @@ public class ToDoDAO {
 		task = tododto.getTask();
 		date = tododto.getDate();
 		status = tododto.isStatus();
-		int rowsAffected = 0;
 		try {
 			pstmt = getConnection().prepareStatement(insert);
 			pstmt.setString(1, task);
@@ -62,22 +63,16 @@ public class ToDoDAO {
 	}
 
 	public List<ToDoDTO> getAllTasks() {
-		List<ToDoDTO> tasks = new ArrayList<>();
+		tasks = new ArrayList<>();
 
 		try {
 			PreparedStatement pstmt = getConnection().prepareStatement(fetch);
 
-			System.out.println("\nConnection Created\n");
+//			System.out.println("\nConnection Created\n");
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				/*
-				 * String task = rs.getString("task"); String date = rs.getString("date");
-				 * boolean status = rs.getBoolean("status");
-				 * 
-				 * ToDoDTO todo = new ToDoDTO(task, date, status); tasks.add(todo);
-				 */
-				ToDoDTO todoFetched = new ToDoDTO();
+				todoFetched = new ToDoDTO();
 				todoFetched.setTask(rs.getString("task"));
 				todoFetched.setDate(rs.getString("date"));
 				todoFetched.setStatus(rs.getBoolean("status"));
@@ -102,7 +97,7 @@ public class ToDoDAO {
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				ToDoDTO todoFetched = new ToDoDTO();
+				todoFetched = new ToDoDTO();
 				todoFetched.setTask(rs.getString("task"));
 				todoFetched.setDate(rs.getString("date"));
 				todoFetched.setStatus(rs.getBoolean("status"));
@@ -118,7 +113,7 @@ public class ToDoDAO {
 	}
 
 	public List<ToDoDTO> getIncompletedTask() {
-		List<ToDoDTO> tasks = new ArrayList<>();
+		tasks = new ArrayList<>();
 
 		try {
 			PreparedStatement pstmt = getConnection().prepareStatement(fetchincompleted);
@@ -127,7 +122,7 @@ public class ToDoDAO {
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				ToDoDTO todoFetched = new ToDoDTO();
+				todoFetched = new ToDoDTO();
 				todoFetched.setTask(rs.getString("task"));
 				todoFetched.setDate(rs.getString("date"));
 				todoFetched.setStatus(rs.getBoolean("status"));
@@ -144,13 +139,11 @@ public class ToDoDAO {
 
 	public boolean deleteTask(String task) {
 		delete = "DELETE FROM  todo WHERE task= '" + task + "'";
-		int rowsAffected = 0;
 		try {
 			pstmt = getConnection().prepareStatement(delete);
 			rowsAffected = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -168,14 +161,12 @@ public class ToDoDAO {
 		update = "UPDATE todo SET task = '" + tododto.getTask() + "', date = '" + tododto.getDate() + "', status = "
 				+ tododto.isStatus() + " WHERE task ='" + task + "'";
 		// System.out.println("\n"+update+"\n");
-		int rowsAffected = 0;
 		try {
 			pstmt = getConnection().prepareStatement(update);
 
 			rowsAffected = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

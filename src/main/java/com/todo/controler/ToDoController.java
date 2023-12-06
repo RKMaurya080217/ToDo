@@ -21,12 +21,15 @@ import com.todo.service.ToDoServiceImpl;
 
 @RestController
 public class ToDoController {
+
+	ToDoServiceImpl serviceimpl;
+	List<ToDoDTO> tododto;
 	private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ToDoController.class);
 
 	@RequestMapping("/todo")
 	@PostMapping
 	public ResponseEntity<ToDoDTO> createTask(@RequestBody ToDoDTO tododto) {
-		ToDoServiceImpl serviceimpl = new ToDoServiceImpl();
+		serviceimpl = new ToDoServiceImpl();
 		tododto = serviceimpl.createTodo(tododto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(tododto);
 
@@ -35,7 +38,7 @@ public class ToDoController {
 	@CrossOrigin
 	@GetMapping("/alltask")
 	public ResponseEntity<List<ToDoDTO>> getAllTask() {
-		ToDoServiceImpl serviceimpl = new ToDoServiceImpl();
+		serviceimpl = new ToDoServiceImpl();
 		logger.info("I'm inside getAllTask method");
 
 		try {
@@ -50,11 +53,11 @@ public class ToDoController {
 
 	@GetMapping("/completedtask")
 	public ResponseEntity<List<ToDoDTO>> getCompletedTask() {
-		ToDoServiceImpl serviceimpl = new ToDoServiceImpl();
+		serviceimpl = new ToDoServiceImpl();
 		logger.info("I'm inside getCompletedTask method");
 
 		try {
-			List<ToDoDTO> tododto = new ArrayList<ToDoDTO>();
+			tododto = new ArrayList<ToDoDTO>();
 			tododto = serviceimpl.getCompletedTask();
 			return ResponseEntity.ok(tododto);
 		} catch (Exception e) {
@@ -65,11 +68,11 @@ public class ToDoController {
 
 	@GetMapping("/incompletedtask")
 	public ResponseEntity<List<ToDoDTO>> getIncompletedTask() {
-		ToDoServiceImpl serviceimpl = new ToDoServiceImpl();
+		serviceimpl = new ToDoServiceImpl();
 		logger.info("I'm inside getIncompletedTask method");
 
 		try {
-			List<ToDoDTO> tododto = new ArrayList<ToDoDTO>();
+			tododto = new ArrayList<ToDoDTO>();
 			tododto = serviceimpl.getIncompletedTask();
 			return ResponseEntity.ok(tododto);
 		} catch (Exception e) {
@@ -77,25 +80,23 @@ public class ToDoController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-	
-	
+
 	@PutMapping("/todo/{task}")
-    public ResponseEntity<ToDoDTO> updateToDo(@PathVariable String task, @RequestBody ToDoDTO tododto) {
-		ToDoServiceImpl serviceimpl = new ToDoServiceImpl();
+	public ResponseEntity<ToDoDTO> updateToDo(@PathVariable String task, @RequestBody ToDoDTO tododto) {
+		serviceimpl = new ToDoServiceImpl();
 		ToDoDTO updatedTask = serviceimpl.updateToDo(task, tododto);
-        if (updatedTask != null) {
-            return ResponseEntity.ok(updatedTask);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-	
+		if (updatedTask != null) {
+			return ResponseEntity.ok(updatedTask);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
 
 	@DeleteMapping("/todo/{task}")
 	@PostMapping
 	public ResponseEntity<Void> deleteTask(@PathVariable String task) {
-		ToDoServiceImpl serviceimpl = new ToDoServiceImpl();
-		System.out.println("\n" + task + "\n");
+		serviceimpl = new ToDoServiceImpl();
+		// System.out.println("\n" + task + "\n");
 		boolean deleted = serviceimpl.deleteTask(task);
 		if (deleted) {
 			return ResponseEntity.noContent().build();
